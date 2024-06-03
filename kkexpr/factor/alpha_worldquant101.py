@@ -1,5 +1,5 @@
-from datafeed.expr_functions import *
-
+from kkexpr.expr_functions import *
+import pandas as pd
 
 class AlphaBase:
     pass
@@ -182,17 +182,17 @@ Alpha#60: (0 - (1 * ((2 * scale(rank(((((close - low) - (high - close)) / (high 
 
 
 if __name__ == '__main__':
-    from config import DATA_DIR
-    from datafeed.expr import calc_expr
+    from kkexpr.config import DATA_DIR
+    from kkexpr.expr import calc_expr
 
     names, features = WorldQuant101().get_names_features()
     name = names[-1]
     feature = features[-1]
 
     dfs = []
-    for s in ['159915.SZ', '159920.SZ', '159934.SZ', '159967.SZ', '510050.SH', '510300.SH', '510500.SH', '510880.SH',
+    for s in ['159915.SZ', '159920.SZ', '159938.SZ', '159967.SZ', '510050.SH', '510300.SH', '510500.SH', '510880.SH',
               '512100.SH', '513100.SH']:
-        df = pd.read_csv(DATA_DIR.joinpath('universe').joinpath('20240415').joinpath('{}.csv'.format(s)).resolve())
+        df = pd.read_csv(DATA_DIR.joinpath('quotes').joinpath('{}.csv'.format(s)).resolve())
         dfs.append(df)
     df_all = pd.concat(dfs)
     df_all.set_index(['date', 'symbol'], inplace=True)

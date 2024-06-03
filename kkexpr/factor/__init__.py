@@ -1,1 +1,1 @@
-from .alpha import *
+from kkexpr.factor.alpha import *

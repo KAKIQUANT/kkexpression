@@ -1,4 +1,4 @@
-from datafeed import AlphaBase
+from kkexpr.factor import AlphaBase
 
 
 class Alpha158(AlphaBase):
