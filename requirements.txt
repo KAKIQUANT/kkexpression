@@ -1,0 +1,12 @@
+# Config & Tools
+typing
+typing-extensions
+pandas
+tqdm
+OmegaConf
+hydra-core
+# Web
+loguru
+
+
+
