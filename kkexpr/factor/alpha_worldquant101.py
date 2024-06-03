@@ -11,9 +11,9 @@ class WorldQuant101(AlphaBase):
         names = []
         features = []
 
-        # names.append('alpha001')
-        # features.append('(rank(ts_argmax(signed_power((stddev(returns, 20) if (returns < 0) else close), 2.), '
-        #                '5)) - 0.5)')
+        names.append('alpha001')
+        features.append('(rank(ts_argmax(signed_power((np.where(returns < 0, stddev(returns, 20), close)), 2.), 5)) - 0.5)')
+
 
         names.append('alpha002')
         features.append('(-1 * correlation(rank(delta(log(volume), 2)), rank(((close - open) / open)), 6))')
@@ -184,10 +184,11 @@ Alpha#60: (0 - (1 * ((2 * scale(rank(((((close - low) - (high - close)) / (high 
 if __name__ == '__main__':
     from kkexpr.config import DATA_DIR
     from kkexpr.expr import calc_expr
-
+    from loguru import logger
+    logger.add('alpha101.log', rotation='10 MB')
     names, features = WorldQuant101().get_names_features()
-    name = names[-1]
-    feature = features[-1]
+    # name = names[-1]
+    # feature = features[-1]
 
     dfs = []
     for s in ['159915.SZ', '159920.SZ', '159938.SZ', '159967.SZ', '510050.SH', '510300.SH', '510500.SH', '510880.SH',
@@ -200,7 +201,9 @@ if __name__ == '__main__':
     df_all.sort_index(level=0, inplace=True)
     df_all['returns'] = calc_expr(df_all, 'close/delay(close,1)-1')
 
-    print(df_all)
-    df_all[name] = calc_expr(df_all, feature)
+    # print(df_all)
+    for name, feature in zip(names, features):
+        df_all[name] = calc_expr(df_all, feature)
 
     print(df_all)
+    # df_all.to_csv(DATA_DIR.joinpath('alpha101.csv').resolve())

@@ -25,6 +25,7 @@ def calc_by_date(func):
                 lambda sub_df: func(*[sub_df[name] for name in se_names], *other_args))
             ret.index = df.index
         else:
+            ret = None
             print('len(args)==0',func)
         return ret
 
@@ -71,6 +72,7 @@ def calc_by_symbol(func):
                     lambda sub_df: func(*[sub_df[name] for name in se_names], *other_args))
                 ret.index = df.index
         else:
+            ret = None
             print('errors:', len(se_args))
         return ret
 
