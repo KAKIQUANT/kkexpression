@@ -97,10 +97,14 @@ class Factor:
         return expression_tree(expression)
     
     @staticmethod
-    def execute_factor(factor, order_book_ids, start_date, end_date):
-        df = get_price(order_book_ids, start_date, end_date)
+    def execute_factor(factor, order_book_ids, frequency, start_date, end_date):
+        df = get_price(order_book_ids=order_book_ids, frequency=frequency, start_date=start_date, end_date=end_date)
         return calc_expr(df, Factor.expression)
 
+    def execute(self, order_book_ids, frequency, start_date, end_date):
+        df = get_price(order_book_ids=order_book_ids, frequency=frequency, start_date=start_date, end_date=end_date)
+        return calc_expr(df, self.expression)
+    
 if __name__ == '__main__':
     # Predefined factors
     open_factor = Factor('open')

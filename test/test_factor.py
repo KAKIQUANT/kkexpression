@@ -16,7 +16,8 @@ def test_simple_factor():
     # # Example usage
     # f = (close_factor - open_factor) / (high_factor - low_factor)
     # print(f)
-    f = Factor("ts_rank(close - open / high - low)")
-    Factor.execute_factor(f, ["000001.XSHE"], "2020-01-01", "2020-01-10")
+    f = Factor("ts_rank((close - open / high - low))")
+    result = f.execute(["600733","000001","601919"],  "1D", "2020-01-01", "2020-01-10")
+    print(result)
 if __name__ == '__main__':
     test_simple_factor()
