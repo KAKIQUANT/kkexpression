@@ -45,3 +45,12 @@ def slope_pair(se_left, se_right, N=18):
     slopes = pd.Series(slopes)
     slopes.index = se_left.index
     return slopes
+
+def CORRELATION(left, right, periods=20):
+    return correlation(left, right, periods)
+
+def COVARIANCE(left, right, periods=10):
+    return covariance(left, right, periods)
+
+def SLOPE_PAIR(se_left, se_right, N=18):
+    return slope_pair(se_left, se_right, N)

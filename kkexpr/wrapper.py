@@ -40,6 +40,14 @@ def expression_tree(expression: str) -> ExprNode:
             return ExprNode(node.id)
         elif isinstance(node, ast.Constant):
             return ExprNode(node.value)
+        elif isinstance(node, ast.UnaryOp):
+            operand = build_tree(node.operand)
+            op = type(node.op).__name__
+            return ExprNode(op, operand)
+        elif isinstance(node, ast.Call):
+            func = node.func.id
+            args = [build_tree(arg) for arg in node.args]
+            return ExprNode(func, *args)
         else:
             raise TypeError(f'Unsupported AST node type: {type(node)}')
 

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from .expr_utils import *
+from .expr_utils import calc_by_date, calc_by_symbol
 
 
 @calc_by_symbol
@@ -11,7 +11,8 @@ def sign(se: pd.Series):
 
 @calc_by_symbol
 def signed_power(se: pd.Series, a):
-    return np.where(se < 0, -np.abs(se) ** a, np.abs(se) ** a)
+    return np.where(se < 0, -(np.abs(se) ** a), np.abs(se) ** a)
+
 
 @calc_by_symbol
 def log(se: pd.Series):
@@ -35,12 +36,16 @@ def scale(x, a=1):
     numpy.ndarray: The scaled array.
     """
     import numpy as np
+
     x = np.array(x)  # 确保输入是numpy数组
     sum_abs_x = np.sum(np.abs(x))  # 计算x的绝对值之和
     if sum_abs_x == 0:
-        raise ValueError("The sum of absolute values of x is zero, cannot scale by a non-zero value.")
+        raise ValueError(
+            "The sum of absolute values of x is zero, cannot scale by a non-zero value."
+        )
     scale_factor = a / sum_abs_x  # 计算缩放因子
     return x * scale_factor  # 应用缩放因子
+
 
 def decay_linear(series, window):
     """
@@ -51,5 +56,5 @@ def decay_linear(series, window):
     :return: 衰减后的序列。
     """
     weights = np.arange(1, window + 1)
-    decay = np.convolve(series, weights, 'valid') / np.sum(weights)
+    decay = np.convolve(series, weights, "valid") / np.sum(weights)
     return decay

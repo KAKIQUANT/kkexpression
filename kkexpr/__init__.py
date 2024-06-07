@@ -1,1 +1,1 @@
-from wrapper import Factor
+from kkexpr.wrapper import Factor
