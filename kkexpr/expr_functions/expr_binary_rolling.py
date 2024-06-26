@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
-from .expr_utils import calc_by_symbol, calc_by_date
-
+from kkexpr.expr_functions.expr_utils import calc_by_symbol, calc_by_date
 
 @calc_by_symbol
 def correlation(left: pd.Series, right: pd.Series, periods=20):
@@ -38,13 +37,14 @@ def slope_pair(se_left, se_right, N=18):
             ## y_pred = lr.predict(x.reshape(-1, 1))
             # beta = lr.coef_[0]
             # r2 = r2_score(y, y_pred)
-            if slope is np.nan:
-                print(slope)
+            #if slope is np.nan:
+                #print(slope)
             slopes.append(slope)
             # R2.append(r2)
     slopes = pd.Series(slopes)
     slopes.index = se_left.index
     return slopes
+
 
 def CORRELATION(left, right, periods=20):
     return correlation(left, right, periods)

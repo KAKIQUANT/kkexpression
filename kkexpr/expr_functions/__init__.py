@@ -5,6 +5,7 @@ from .expr_binary import *
 from .expr_unary_rolling import *
 from .expr_binary_rolling import *
 from .expr_funcs_talib import *
+from .expr_others import *
 
 
 def Sub(left, right):
@@ -33,8 +34,7 @@ def list_funcs(mod):
         if name in ['calc_by_date', 'calc_by_symbol', 'wraps']:
             continue
 
-        funcs.append(func)
-    #print(funcs)
+        funcs.append(name)
     return funcs
 
 

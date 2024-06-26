@@ -4,7 +4,8 @@ from abc import abstractmethod
 class AlphaBase:
     # 返回因子集的fields, names
     def get_label(self):
-        return "qcut(shift(close, -1)/close - 1,3)", 'label'
+        #   return "qcut(shift(close, -1)/close - 1,3)", 'label'
+        return "shift(close, -20)/close - 1", 'label'
 
     @abstractmethod
     def get_factors(self):
@@ -12,11 +13,11 @@ class AlphaBase:
 
     def get_field_by_name(self, name):
         fields, names = self.get_factors()
-        for f,n in zip(fields, names):
+        for f, n in zip(fields, names):
             if n == name:
                 return f
 
-    #def get_labels(self):
+    # def get_labels(self):
     #    return ["label(shift(close, -1)/close - 1,0)"], ['label']
 
     def get_ic_labels(self):
@@ -38,7 +39,6 @@ class AlphaBase:
 
 
 class AlphaLit(AlphaBase):
-
 
     def get_fields_names(self):
         fields = []
@@ -74,6 +74,3 @@ class AlphaLit(AlphaBase):
 
     def get_label(self):
         return "qcut(shift(close, -1)/close - 1,3)", 'label'
-
-
-

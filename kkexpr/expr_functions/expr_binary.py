@@ -1,8 +1,17 @@
 import pandas as pd
 import numpy as np
 
-from kkexpr.expr_functions import calc_by_symbol
+from kkexpr.expr_functions.expr_utils import calc_by_symbol
 
+
+
+@calc_by_symbol
+def greater(left, right):
+    return np.maximum(left, right)
+
+@calc_by_symbol
+def less(left, right):
+    return np.minimum(left, right)
 
 @calc_by_symbol
 def cross_up(left, right):

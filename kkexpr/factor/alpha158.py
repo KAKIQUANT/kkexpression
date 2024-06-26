@@ -1,6 +1,4 @@
-from kkexpr.factor import AlphaBase
-
-
+from kkexpr.factor.alpha import AlphaBase
 class Alpha158(AlphaBase):
 
     def get_fields_names(self):
@@ -60,10 +58,10 @@ class Alpha158(AlphaBase):
         #fields += ["slope(close, %d)/close" % d for d in windows]
         #names += ["BETA%d" % d for d in windows]
 
-        fields += ["max(high, %d)/close" % d for d in windows]
+        fields += ["ts_max(high, %d)/close" % d for d in windows]
         names += ["MAX%d" % d for d in windows]
 
-        fields += ["min(low, %d)/close" % d for d in windows]
+        fields += ["ts_min(low, %d)/close" % d for d in windows]
         names += ["MIN%d" % d for d in windows]
 
         fields += ["quantile(close, %d, 0.8)/close" % d for d in windows]
@@ -75,22 +73,22 @@ class Alpha158(AlphaBase):
         #fields += ["ts_rank(close, %d)" % d for d in windows]
         #names += ["RANK%d" % d for d in windows]
 
-        fields += ["(close-min(low, %d))/(max(high, %d)-min(low, %d)+1e-12)" % (d, d, d) for d in windows]
+        fields += ["(close-ts_min(low, %d))/(ts_max(high, %d)-ts_min(low, %d)+1e-12)" % (d, d, d) for d in windows]
         names += ["RSV%d" % d for d in windows]
 
-        fields += ["idxmax(high, %d)/%d" % (d, d) for d in windows]
+        fields += ["ts_argmax(high, %d)/%d" % (d, d) for d in windows]
         names += ["IMAX%d" % d for d in windows]
 
-        fields += ["idxmin(low, %d)/%d" % (d, d) for d in windows]
+        fields += ["ts_argmin(low, %d)/%d" % (d, d) for d in windows]
         names += ["IMIN%d" % d for d in windows]
 
-        fields += ["(idxmax(high, %d)-idxmin(low, %d))/%d" % (d, d, d) for d in windows]
+        fields += ["(ts_argmax(high, %d)-ts_argmin(low, %d))/%d" % (d, d, d) for d in windows]
         names += ["IMXD%d" % d for d in windows]
 
-        fields += ["corr(close, log(volume+1), %d)" % d for d in windows]
+        fields += ["correlation(close, log(volume+1), %d)" % d for d in windows]
         names += ["CORR%d" % d for d in windows]
 
-        fields += ["corr(close/shift(close,1), log(volume/shift(volume, 1)+1), %d)" % d for d in windows]
+        fields += ["correlation(close/shift(close,1), log(volume/shift(volume, 1)+1), %d)" % d for d in windows]
         names += ["CORD%d" % d for d in windows]
 
         fields += ["mean(close>shift(close, 1), %d)" % d for d in windows]
@@ -103,20 +101,20 @@ class Alpha158(AlphaBase):
         names += ["CNTD%d" % d for d in windows]
 
         fields += [
-            "sum(greater(close-shift(close, 1), 0), %d)/(sum(Abs(close-shift(close, 1)), %d)+1e-12)" % (d, d)
+            "sum(greater(close-shift(close, 1), 0), %d)/(sum(abs(close-shift(close, 1)), %d)+1e-12)" % (d, d)
             for d in windows
         ]
         names += ["SUMP%d" % d for d in windows]
 
         fields += [
-            "sum(greater(shift(close, 1)-close, 0), %d)/(sum(Abs(close-shift(close, 1)), %d)+1e-12)" % (d, d)
+            "sum(greater(shift(close, 1)-close, 0), %d)/(sum(abs(close-shift(close, 1)), %d)+1e-12)" % (d, d)
             for d in windows
         ]
         names += ["SUMN%d" % d for d in windows]
 
         fields += [
             "(sum(greater(close-shift(close, 1), 0), %d)-sum(greater(shift(close, 1)-close, 0), %d))"
-            "/(sum(Abs(close-shift(close, 1)), %d)+1e-12)" % (d, d, d)
+            "/(sum(abs(close-shift(close, 1)), %d)+1e-12)" % (d, d, d)
             for d in windows
         ]
         names += ["SUMD%d" % d for d in windows]
@@ -128,21 +126,21 @@ class Alpha158(AlphaBase):
         names += ["VSTD%d" % d for d in windows]
 
         fields += [
-            "std(Abs(close/shift(close, 1)-1)*volume, %d)/(mean(Abs(close/shift(close, 1)-1)*volume, %d)+1e-12)"
+            "std(abs(close/shift(close, 1)-1)*volume, %d)/(mean(abs(close/shift(close, 1)-1)*volume, %d)+1e-12)"
             % (d, d)
             for d in windows
         ]
         names += ["WVMA%d" % d for d in windows]
 
         fields += [
-            "sum(greater(volume-shift(volume, 1), 0), %d)/(sum(Abs(volume-shift(volume, 1)), %d)+1e-12)"
+            "sum(greater(volume-shift(volume, 1), 0), %d)/(sum(abs(volume-shift(volume, 1)), %d)+1e-12)"
             % (d, d)
             for d in windows
         ]
         names += ["VSUMP%d" % d for d in windows]
 
         fields += [
-            "sum(greater(shift(volume, 1)-volume, 0), %d)/(sum(Abs(volume-shift(volume, 1)), %d)+1e-12)"
+            "sum(greater(shift(volume, 1)-volume, 0), %d)/(sum(abs(volume-shift(volume, 1)), %d)+1e-12)"
             % (d, d)
             for d in windows
         ]
@@ -150,10 +148,9 @@ class Alpha158(AlphaBase):
 
         fields += [
             "(sum(greater(volume-shift(volume, 1), 0), %d)-sum(greater(shift(volume, 1)-volume, 0), %d))"
-            "/(sum(Abs(volume-shift(volume, 1)), %d)+1e-12)" % (d, d, d)
+            "/(sum(abs(volume-shift(volume, 1)), %d)+1e-12)" % (d, d, d)
             for d in windows
         ]
         names += ["VSUMD%d" % d for d in windows]
 
         return fields, names
-
