@@ -4,8 +4,10 @@ from .expr_unary import *
 from .expr_binary import *
 from .expr_unary_rolling import *
 from .expr_binary_rolling import *
-from .expr_funcs_talib import *
-from .expr_others import *
+from .expr_not_use_in_ga import *
+
+#from .expr_funcs_pandas_ta import *
+#from .expr_funcs_talib import *
 
 
 def Sub(left, right):
@@ -31,10 +33,13 @@ def list_funcs(mod):
     name_funcs = {name: func for name, func in inspect.getmembers(mod, inspect.isfunction)}
 
     for name, func in name_funcs.items():
+        if name[0] == '_':
+            continue
         if name in ['calc_by_date', 'calc_by_symbol', 'wraps']:
             continue
 
         funcs.append(name)
+    #print(funcs)
     return funcs
 
 

@@ -2,10 +2,24 @@ import pandas as pd
 import talib
 from kkexpr.expr_functions.expr_utils import calc_by_symbol
 
+
+@calc_by_symbol
+def ts_dema(X, d):
+    X.ffill(inplace=True)
+    y = talib.DEMA(X, d)
+    return y
+
+@calc_by_symbol
+def ts_ema(X, d):
+    X.ffill(inplace=True)
+    y = talib.EMA(X, d)
+    return y
+
 @calc_by_symbol
 def bbands_up(close, timeperiod=20, nbdevup=2, nbdevdn=2):
     upper_band, middle_band, lower_band = talib.BBANDS(close, timeperiod=timeperiod, nbdevup=nbdevup, nbdevdn=nbdevdn)
     return upper_band
+
 
 @calc_by_symbol
 def bbands_down(close, timeperiod=20, nbdevup=2, nbdevdn=2):

@@ -20,7 +20,7 @@ setup(
         "License :: OSI Approved :: GPL-3.0 License",
         "Operating System :: OS Dependent",
     ],
-    python_requires='>=3.10',
+    python_requires='>=3.9',
     install_requires=install_requires,
     project_urls={
         "Bug Tracker": "https://github.com/KAKIQUANT/kkexpr/issues",
