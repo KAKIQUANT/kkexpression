@@ -1,13 +1,7 @@
-# Config & Tools
-typing
-typing-extensions
-pandas
-tqdm
-OmegaConf
-hydra-core
-# Web
-loguru
-pygwalker
+pandas>=1.0.0
+numpy>=1.18.0
+# kkdatac>=0.1.0
+# talib>=0.4.0
 
 
 

@@ -1,32 +1,41 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
+from typing import List, Tuple
 
 
-class AlphaBase:
-    # 返回因子集的fields, names
-    def get_label(self):
-        #   return "qcut(shift(close, -1)/close - 1,3)", 'label'
+class AlphaBase(ABC):
+    """Base class for alpha factor implementations."""
+    
+    def get_label(self) -> Tuple[str, str]:
+        """Get label field and name."""
         return "shift(close, -20)/close - 1", 'label'
 
     @abstractmethod
-    def get_factors(self):
+    def get_fields_names(self) -> Tuple[List[str], List[str]]:
+        """
+        Get factor fields and names.
+        
+        Returns:
+            Tuple of (fields list, names list)
+        """
         pass
 
-    def get_field_by_name(self, name):
-        fields, names = self.get_factors()
+    def get_field_by_name(self, name: str) -> str:
+        """Get field expression by factor name."""
+        fields, names = self.get_fields_names()
         for f, n in zip(fields, names):
             if n == name:
                 return f
+        return None
 
-    # def get_labels(self):
-    #    return ["label(shift(close, -1)/close - 1,0)"], ['label']
-
-    def get_ic_labels(self):
+    def get_ic_labels(self) -> Tuple[List[str], List[str]]:
+        """Get IC calculation labels."""
         days = [1, 5, 10, 20]
-        fields = ['shift(close, -{})/close - 1'.format(d) for d in days]
-        names = ['return_{}'.format(d) for d in days]
+        fields = [f'shift(close, -{d})/close - 1' for d in days]
+        names = [f'return_{d}' for d in days]
         return fields, names
 
-    def get_all_features_names(self):
+    def get_all_features_names(self) -> Tuple[List[str], List[str]]:
+        """Get all factor fields and names including label."""
         fields, names = self.get_fields_names()
         label_field, label_name = self.get_label()
 
