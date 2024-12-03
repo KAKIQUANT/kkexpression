@@ -26,17 +26,15 @@ def create_test_data(dates: pd.DatetimeIndex, symbols: List[str]) -> pd.DataFram
     df.index.names = ['symbol', 'date']
     return df.sort_index()
 
-def setup_test_data_dir(base_path: Path) -> Dict[str, Path]:
-    """Setup test data directory structure."""
-    paths = {
-        'root': base_path / 'test_data',
-        'quotes': base_path / 'test_data' / 'quotes',
-    }
+def setup_test_data_dir(test_dir: Path) -> dict:
+    """Set up test data directory structure and return paths."""
+    # Just point to the original data directory
+    source_data_dir = Path(__file__).parent.parent / 'kkexpr' / 'data'
     
-    for path in paths.values():
-        path.mkdir(parents=True, exist_ok=True)
-        
-    return paths
+    return {
+        'root': source_data_dir,
+        'quotes': source_data_dir / 'quotes'
+    }
 
 # Mock for kkdatac.get_price
 def mock_get_price(order_book_ids, frequency, start_date, end_date):

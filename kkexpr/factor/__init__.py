@@ -1,9 +1,15 @@
 from .alpha import AlphaBase
-from .alpha158 import Alpha158
 from .alpha_worldquant101 import WorldQuant101
+from .alpha_momentum import AlphaMomentum
+from .alpha_volatility import AlphaVolatility
+from .alpha_value import AlphaValue
+from .alpha_technical import AlphaTechnical
 
 __all__ = [
     'AlphaBase',
-    'Alpha158',
-    'WorldQuant101'
+    'WorldQuant101',
+    'AlphaMomentum',
+    'AlphaVolatility',
+    'AlphaValue',
+    'AlphaTechnical'
 ]

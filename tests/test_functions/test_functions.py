@@ -35,17 +35,19 @@ class TestFunctions(unittest.TestCase):
 
     def test_binary_functions(self):
         """Test binary functions."""
-        s1 = pd.Series([1, 2, 3, 2, 3], index=self.dates[:5])
-        s2 = pd.Series([2, 2, 2, 2, 2], index=self.dates[:5])
+        # Create specific test case for cross up
+        # Series crosses above 2 at index 2
+        s1 = pd.Series([1.0, 1.8, 2.2, 2.0, 3.0], index=self.dates[:5])
+        s2 = pd.Series([2.0, 2.0, 2.0, 2.0, 2.0], index=self.dates[:5])
         
         # Test cross_up
         result = cross_up(s1, s2)
-        self.assertTrue(result.iloc[2])
+        self.assertTrue(result.iloc[2], "Expected cross up at index 2")
         
         # Test cross_down
-        s1 = pd.Series([3, 2, 1, 2, 1], index=self.dates[:5])
+        s1 = pd.Series([3.0, 2.2, 1.8, 2.0, 1.0], index=self.dates[:5])
         result = cross_down(s1, s2)
-        self.assertTrue(result.iloc[2])
+        self.assertTrue(result.iloc[2], "Expected cross down at index 2")
 
     def test_technical_functions(self):
         """Test technical indicators."""

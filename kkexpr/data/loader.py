@@ -38,8 +38,14 @@ class CSVDataloader:
         for symbol in self.symbols:
             file_path = self.path / f'{symbol}.csv'
             logger.debug(f"Reading file: {file_path}")
-            df = pd.read_csv(file_path, index_col=0)
-            df.index = pd.to_datetime(df.index)
+            # Read CSV and convert date column
+            df = pd.read_csv(file_path)
+            # Convert numeric columns to strings
+            for col in ['open', 'high', 'low', 'close', 'volume']:
+                df[col] = df[col].astype(str)
+            # Convert date string to datetime
+            df['date'] = pd.to_datetime(df['date'], format='%Y%m%d')
+            df.set_index('date', inplace=True)
             df['symbol'] = symbol
             logger.debug(f"Loaded {symbol} data shape: {df.shape}")
             dfs.append(df)
@@ -54,11 +60,12 @@ class CSVDataloader:
         df = df.sort_index()
         logger.debug("Index sorted")
         
-        # Filter by date range
-        start_date = pd.to_datetime(self.start_date)
-        end_date = pd.to_datetime(self.end_date)
+        # Convert input dates to datetime
+        start_date = pd.to_datetime(str(self.start_date), format='%Y%m%d')
+        end_date = pd.to_datetime(str(self.end_date), format='%Y%m%d')
         logger.debug(f"Date range: {start_date} to {end_date}")
         
+        # Filter by date range
         result = df.loc[(slice(None), slice(start_date, end_date)), :]
         logger.debug(f"Filtered result shape: {result.shape}")
         
