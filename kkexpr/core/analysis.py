@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
 from typing import Optional, Dict, Any, List
-from scipy import stats
-
 class FactorAnalysis:
     """Factor analysis engine following RQFactor's API."""
     
